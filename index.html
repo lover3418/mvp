@@ -8,7 +8,20 @@
   <div id="output"></div>
 
   <script>
-    document.getElementById("output").innerText = "JavaScript is working ✅";
+    async function callWorker() {
+      try {
+        const res = await fetch("https://my-proxy-worker.buykey.workers.dev", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ secrateCode: "12345" }) // sending from app
+        });
+        const data = await res.json();
+        document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+      } catch (err) {
+        document.getElementById("output").innerText = "Error: " + err;
+      }
+    }
+    callWorker();
   </script>
 </body>
 </html>
